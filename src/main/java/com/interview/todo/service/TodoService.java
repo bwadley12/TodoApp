@@ -14,6 +14,9 @@ import com.interview.todo.api.CreateRequest;
 import com.interview.todo.entity.TodoEntity;
 import com.interview.todo.repository.TodoRepository;
 
+/**
+ * Service to handle validation, error handling, and database interaction
+ */
 @Service
 public class TodoService {
     private final Logger logger = LoggerFactory.getLogger(TodoService.class);
@@ -21,10 +24,19 @@ public class TodoService {
     @Autowired
     private TodoRepository repo;
 
+    /**
+     * method to retrieve all entries from the database's Todo table
+     * @return - List of all Todo entries in the database
+     */
     public List<TodoEntity> getAll() {
         return StreamSupport.stream(repo.findAll().spliterator(), false).filter(Objects::nonNull).toList();
     }
 
+    /**
+     * method to save a given entity to the database
+     * @param entity - TodoEntity, the entity the api user wishes to save
+     * @return - if successfully save to the database, the entity returned from h2. if not, null
+     */
     public TodoEntity save(TodoEntity entity) {
         TodoEntity returnedEntity = null;
         try {
@@ -36,11 +48,20 @@ public class TodoService {
         return returnedEntity;
     }
 
+    /**
+     * method to retrieve the entity defined by the given id
+     * @param id - long, id to search for
+     * @return - if found, the TodoEntity. if not, null
+     */
     public TodoEntity findById(Long id) {
         Optional<TodoEntity> entity = repo.findById(id);
         return entity.isPresent() ? entity.get() : null;
     }
 
+    /**
+     * method to remove the entity whose id is the given value
+     * @param id - long, the id to search the database for and remove
+     */
     public void deleteById(Long id) {
         if(!repo.existsById(id)) logger.warn("entry with the given id was not found, and can therefore not be deleted."); // todo: update to use existsById
 
@@ -51,6 +72,12 @@ public class TodoService {
         }
     }
 
+    /**
+     * method to handle updates of entries
+     * @param id - long, the id to search the database for and, if found, update its values
+     * @param request - request containing the values that will overwrite the values of the existing entry
+     * @return
+     */
     public TodoEntity updateById(long id, CreateRequest request) {
         TodoEntity entity = findById(id);
 
