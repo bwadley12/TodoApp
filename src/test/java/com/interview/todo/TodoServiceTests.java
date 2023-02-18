@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class TodoServiceTests {
 
         var returnedEntities = service.getAll();
 
+        assertNotNull(returnedEntities);
         assertEquals(entities, returnedEntities);
     }
 
@@ -51,6 +53,19 @@ public class TodoServiceTests {
 
         var returnedEntity = service.save(entity);
         
+        assertNotNull(returnedEntity);
+        assertEquals(entity, returnedEntity);
+    }
+
+    @Test
+    void findByIdTest() {
+        TodoRepository repo = mock(TodoRepository.class);
+        TodoEntity entity = randomEntity();        
+        when(repo.findById(entity.getId())).thenReturn(Optional.of(entity));
+        ReflectionTestUtils.setField(service, "repo", repo);
+
+        TodoEntity returnedEntity = service.findById(entity.getId());
+
         assertNotNull(returnedEntity);
         assertEquals(entity, returnedEntity);
     }
