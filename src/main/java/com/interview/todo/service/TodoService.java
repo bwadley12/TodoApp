@@ -42,7 +42,7 @@ public class TodoService {
     }
 
     public void deleteById(Long id) {
-        if(findById(id) == null) logger.warn("entry with the given id was not found, and can therefore not be deleted."); // todo: update to use existsById
+        if(!repo.existsById(id)) logger.warn("entry with the given id was not found, and can therefore not be deleted."); // todo: update to use existsById
 
         try {
             repo.deleteById(id);
