@@ -1,0 +1,1 @@
+create table Todo(id smallint, title varchar(255), description varchar(1000), primary key(id))
