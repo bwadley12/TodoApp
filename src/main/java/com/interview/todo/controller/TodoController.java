@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,5 +42,10 @@ public class TodoController {
     @PostMapping("/delete/")
     public void deleteById(@RequestParam("id") long todoId) {
         service.deleteById(todoId);
+    }
+
+    @PatchMapping("/update/")
+    public void updateById(@RequestParam("id") long todoId, @RequestBody CreateRequest request) {
+        service.updateById(todoId, request);
     }
 }

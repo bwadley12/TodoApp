@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,6 +19,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.ArrayList;
 
+import com.interview.todo.api.CreateRequest;
 import com.interview.todo.entity.TodoEntity;
 import com.interview.todo.repository.TodoRepository;
 import com.interview.todo.service.TodoService;
@@ -83,6 +85,36 @@ public class TodoServiceTests {
         verify(repo, atLeast(1)).deleteById(idToTest);
     }
 
+    @Test
+    void patchById() {
+        TodoRepository repo = mock(TodoRepository.class);
+        TodoEntity entity = randomEntity();
+        TodoEntity entityAfterPatch = new TodoEntity();
+        entityAfterPatch.setTitle("title");
+        entityAfterPatch.setDescription("description");
+
+        when(repo.findById(entity.getId())).thenReturn(Optional.of(entity));
+        when(repo.save(any())).thenReturn(entityAfterPatch);
+        ReflectionTestUtils.setField(service, "repo", repo);
+
+        TodoEntity returnedEntity = service.updateById(entity.getId(), new CreateRequest("title", "description"));
+
+        verify(repo, atLeast(1)).findById(any());
+        verify(repo, atLeast(1)).save(any());
+        assertEquals(entityAfterPatch, returnedEntity);
+    }
+
+    @Test
+    void patchById_entryNotInDb_Test() {
+        TodoRepository repo = mock(TodoRepository.class);
+        when(repo.findById(any())).thenReturn(Optional.empty());
+        ReflectionTestUtils.setField(service, "repo", repo);
+
+        service.updateById(1, null);
+
+        verify(repo, atLeast(1)).findById(any());
+        verify(repo, never()).save(any());
+    }
 
     private TodoEntity randomEntity() {
         TodoEntity entity = new TodoEntity();

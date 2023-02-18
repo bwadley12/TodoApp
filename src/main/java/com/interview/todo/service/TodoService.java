@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.interview.todo.api.CreateRequest;
 import com.interview.todo.entity.TodoEntity;
 import com.interview.todo.repository.TodoRepository;
 
@@ -41,11 +42,25 @@ public class TodoService {
     }
 
     public void deleteById(Long id) {
-        try{
+        if(!repo.existsById(id)) logger.warn("entry with the given id was not found, and can therefore not be deleted."); // todo: update to use existsById
+
+        try {
             repo.deleteById(id);
         } catch(IllegalArgumentException e) {
             logger.error("given id was null, unable to delete from database");
         }
     }
-    
+
+    public TodoEntity updateById(long id, CreateRequest request) {
+        TodoEntity entity = findById(id);
+
+        if(entity == null) {
+            logger.warn("Entry by this id was not found in the database");
+            return null;
+        }
+
+        entity.setTitle(request.title() == null ? entity.getTitle() : request.title());
+        entity.setDescription(request.description() == null ? entity.getDescription() : request.description());
+        return save(entity);
+    }
 }
