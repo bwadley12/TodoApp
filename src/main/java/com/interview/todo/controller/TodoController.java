@@ -3,6 +3,7 @@ package com.interview.todo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,7 +61,7 @@ public class TodoController {
      * Mapping to handle entry deletes
      * @param todoId - long, the id to delete, if present. request should in the format /delete/?id={todoId}
      */
-    @PostMapping("/delete/")
+    @DeleteMapping("/delete/")
     public void deleteById(@RequestParam("id") long todoId) {
         service.deleteById(todoId);
     }
