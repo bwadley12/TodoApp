@@ -18,4 +18,17 @@ public class TodoService {
     public List<TodoEntity> getAll() {
         return StreamSupport.stream(repo.findAll().spliterator(), false).filter(null).toList();
     }
+
+    public TodoEntity save(TodoEntity entity) {
+        System.out.println(entity);
+        TodoEntity returnedEntity = null;
+        try {
+            returnedEntity = repo.save(entity);
+        } catch(Exception e) {
+            e.printStackTrace();
+            // todo: handle error
+        }
+
+        return returnedEntity;
+    }
 }
