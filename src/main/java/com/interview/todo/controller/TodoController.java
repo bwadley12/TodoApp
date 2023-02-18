@@ -1,5 +1,7 @@
 package com.interview.todo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +19,12 @@ public class TodoController {
     private TodoService service;
 
     @GetMapping("/getAll")
-    private String getAll() {
-        return "test";
+    private List<TodoEntity> getAll() {
+        return service.getAll();
     }
 
     @PostMapping("/create")
     private TodoEntity create(@RequestBody CreateRequest request) {
-        System.out.println(request);
         TodoEntity newEntity = new TodoEntity();
         newEntity.setTitle(request.title());
         newEntity.setDescription(request.description()); 
