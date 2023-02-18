@@ -2,6 +2,7 @@ package com.interview.todo.service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
@@ -32,5 +33,10 @@ public class TodoService {
         }
 
         return returnedEntity;
+    }
+
+    public TodoEntity findById(Long id) {
+        Optional<TodoEntity> entity = repo.findById(id);
+        return entity.isPresent() ? entity.get() : null;
     }
 }

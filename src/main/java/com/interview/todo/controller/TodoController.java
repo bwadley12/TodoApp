@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.interview.todo.api.CreateRequest;
@@ -31,4 +32,9 @@ public class TodoController {
 
         return service.save(newEntity);
     }
+
+    @GetMapping("/find/")
+    public TodoEntity findById(@RequestParam("id") long todoId) {
+        return service.findById(todoId);
+    }  
 }
