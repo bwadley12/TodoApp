@@ -36,5 +36,10 @@ public class TodoController {
     @GetMapping("/find/")
     public TodoEntity findById(@RequestParam("id") long todoId) {
         return service.findById(todoId);
-    }  
+    }
+
+    @PostMapping("/delete/")
+    public void deleteById(@RequestParam("id") long todoId) {
+        service.deleteById(todoId);
+    }
 }

@@ -15,7 +15,7 @@ import com.interview.todo.repository.TodoRepository;
 
 @Service
 public class TodoService {
-    Logger logger = LoggerFactory.getLogger(TodoService.class);
+    private final Logger logger = LoggerFactory.getLogger(TodoService.class);
 
     @Autowired
     private TodoRepository repo;
@@ -29,7 +29,7 @@ public class TodoService {
         try {
             returnedEntity = repo.save(entity);
         } catch(Exception e) {
-            logger.error("Error adding entry to the database", e);
+            logger.error("Error adding entry to the database");
         }
 
         return returnedEntity;
@@ -39,4 +39,13 @@ public class TodoService {
         Optional<TodoEntity> entity = repo.findById(id);
         return entity.isPresent() ? entity.get() : null;
     }
+
+    public void deleteById(Long id) {
+        try{
+            repo.deleteById(id);
+        } catch(IllegalArgumentException e) {
+            logger.error("given id was null, unable to delete from database");
+        }
+    }
+    
 }

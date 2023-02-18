@@ -3,7 +3,9 @@ package com.interview.todo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -68,6 +70,17 @@ public class TodoServiceTests {
 
         assertNotNull(returnedEntity);
         assertEquals(entity, returnedEntity);
+    }
+
+    @Test
+    void deleteByIdTest() {
+        TodoRepository repo = mock(TodoRepository.class);
+        ReflectionTestUtils.setField(service, "repo", repo);
+        long idToTest = 1;
+        
+        service.deleteById(idToTest);
+
+        verify(repo, atLeast(1)).deleteById(idToTest);
     }
 
 
