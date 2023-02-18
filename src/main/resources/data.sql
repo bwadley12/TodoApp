@@ -1,0 +1,1 @@
+create table todo_entity(id int not null auto_increment, title varchar(255), description varchar(1000), primary key(id))
