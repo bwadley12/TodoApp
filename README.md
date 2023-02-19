@@ -19,8 +19,8 @@ error handling and validation for inputs.
 ----------------------------------------------------------------------------------------------------------------------------
 
 Helpful api commands:
-CREATE:         curl -X POST -H "Content-Type: application/json" -d '{"title":"testTitle", "description":"testdescription"}' http://localhost:8080/create
-READ ALL:       curl -X GET http://localhost:8080/getAll
-READ BY ID:     curl -X GET http://localhost:8080/find/?id=1
-PATCH:          curl -X PATCH -H "Content-Type: application/json" -d '{"title":"updatedTitle"}' http://localhost:8080/update/?id=1
-DELETE:         curl -X DELETE http://localhost:8080/delete/?id=1
+* CREATE:         curl -X POST -H "Content-Type: application/json" -d '{"title":"testTitle", "description":"testdescription"}' http://localhost:8080/create
+* READ ALL:       curl -X GET http://localhost:8080/getAll
+* READ BY ID:     curl -X GET http://localhost:8080/find/?id=1
+* PATCH:          curl -X PATCH -H "Content-Type: application/json" -d '{"title":"updatedTitle"}' http://localhost:8080/update/?id=1
+* DELETE:         curl -X DELETE http://localhost:8080/delete/?id=1
