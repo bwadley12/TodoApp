@@ -63,7 +63,10 @@ public class TodoService {
      * @param id - long, the id to search the database for and remove
      */
     public void deleteById(Long id) {
-        if(!repo.existsById(id)) logger.warn("entry with the given id was not found, and can therefore not be deleted."); // todo: update to use existsById
+        if(!repo.existsById(id)) {
+            logger.warn("entry with the given id was not found, and can therefore not be deleted.");
+            return;
+        }
 
         try {
             repo.deleteById(id);
